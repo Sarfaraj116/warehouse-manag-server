@@ -88,5 +88,5 @@ app.get('/', (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log('code is running', 5000)
+    console.log('code running', 5000)
 })
