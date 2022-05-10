@@ -75,6 +75,7 @@ async function run() {
             const query = { _id: ObjectId(id) }
             const result = await laptopCollection.deleteOne(query);
             res.send(result);
+            
         })
     }
     finally {
