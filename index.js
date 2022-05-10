@@ -19,7 +19,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 async function run() {
     try {
         await client.connect();
-        const laptopCollection = client.db('Werehouse-Laptop').collection('laptop')
+        const laptopCollection = client.db('warhouse-manage-assignment').collection('My collections')
 
         // JWT
         app.post('/login', async (req, res) => {
@@ -32,7 +32,7 @@ async function run() {
 
         // 
 
-        app.get('/laptop', async (req, res) => {
+        app.get('/car', async (req, res) => {
             console.log('query', req.query);
             const page = parseInt(req.query.page);
             const size = parseInt(req.query.size);
@@ -62,7 +62,7 @@ async function run() {
                 res.send(result);
             });
             // paigination
-            app.get('/laptopcount', async (req, res) => {
+            app.get('/carcount', async (req, res) => {
                 // const query = {};
                 // const cursor = laptopCollection.find(query);
                 const count = await laptopCollection.estimatedDocumentCount();
