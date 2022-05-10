@@ -19,7 +19,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 async function run() {
     try {
         await client.connect();
-        const laptopCollection = client.db('warhouse-manage-assignment').collection('My collections')
+        const CarCollection = client.db('warhouse-manage-assignment').collection('My collections')
 
         // JWT
         app.post('/login', async (req, res) => {
@@ -37,20 +37,20 @@ async function run() {
             const page = parseInt(req.query.page);
             const size = parseInt(req.query.size);
             const query = {};
-            const cursor = laptopCollection.find(query);
-            let laptops;
+            const cursor = CarCollection.find(query);
+            let Cars;
             if (page || size) {
-                laptops = await cursor.skip(page * size).limit(size).toArray();
+                Cars = await cursor.skip(page * size).limit(size).toArray();
             }
             else {
-                laptops = await cursor.toArray();
+                Cars = await cursor.toArray();
             }
 
-            res.send(laptops);
+            res.send(Cars);
             // Load Item
             app.get('/user', async (req, res) => {
                 const query = {}
-                const cursor = laptopCollection.find(query);
+                const cursor = CarCollection.find(query);
                 const users = await cursor.toArray();
                 res.send(users);
             });
@@ -58,14 +58,14 @@ async function run() {
             app.post('/user', async (req, res) => {
                 const newUser = req.body;
                 console.log('new', newUser);
-                const result = await laptopCollection.insertOne(newUser);
+                const result = await CarCollection.insertOne(newUser);
                 res.send(result);
             });
             // paigination
             app.get('/carcount', async (req, res) => {
                 // const query = {};
                 // const cursor = laptopCollection.find(query);
-                const count = await laptopCollection.estimatedDocumentCount();
+                const count = await CarCollection.estimatedDocumentCount();
                 res.send({ count });
             })
         })
@@ -73,7 +73,7 @@ async function run() {
         app.delete('/user/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: ObjectId(id) }
-            const result = await laptopCollection.deleteOne(query);
+            const result = await CarCollection.deleteOne(query);
             res.send(result);
 
         })
@@ -85,7 +85,7 @@ async function run() {
 run().catch(console.dir)
 
 app.get('/', (req, res) => {
-    res.send('Laptop werehouse server')
+    res.send('Car werehouse server')
 });
 
 app.listen(port, () => {
